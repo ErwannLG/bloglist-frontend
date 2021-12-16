@@ -11,9 +11,6 @@ const App = () => {
   const [username, setUsername] = useState('')
   const [password, setPassword] = useState('')
   const [user, setUser] = useState(null)
-  const [newTitle, setNewTitle] = useState('')
-  const [newAuthor, setNewAuthor] = useState('')
-  const [newUrl, setNewUrl] = useState('')
   const [message, setMessage] = useState(null)
 
   useEffect(() => {
@@ -87,51 +84,20 @@ const App = () => {
     </div>
   )
 
-
-  const handleTitleChange = (event) => {
-    setNewTitle(event.target.value)
-  }
-
-  const handleAuthorChange = (event) => {
-    setNewAuthor(event.target.value)
-  }
-
-  const handleUrlChange = (event) => {
-    setNewUrl(event.target.value)
-  }
-
-  const addBlog = (event) => {
-    event.preventDefault()
-    const blogObject = {
-      title: newTitle,
-      author: newAuthor,
-      url: newUrl,
-    }
-
+  const addBlog = (blogObject) => {
     blogService.createBlog(blogObject).then((createdBlog) => {
       setBlogs(blogs.concat(createdBlog))
-      setNewTitle("")
-      setNewAuthor("")
-      setNewUrl("")
+      setMessage(`a new blog ${blogObject.title} by ${blogObject.author} added`)
+      setTimeout(() => {
+        setMessage(null)
+      }, 5000)
     })
 
-    setMessage(`a new blog ${newTitle} by ${newAuthor} added`)
-    setTimeout(() => {
-      setMessage(null)
-    }, 5000)
   }
 
   const blogForm = () => (
     <Toggleable buttonLabel="create new blog">
-      <BlogForm
-        onSubmit={addBlog}
-        newTitle={newTitle}
-        newAuthor={newAuthor}
-        newUrl={newUrl}
-        handleTitleChange={handleTitleChange}
-        handleAuthorChange={handleAuthorChange}
-        handleUrlChange={handleUrlChange}
-      />
+      <BlogForm createBlog={addBlog} />
     </Toggleable>
   )
 
@@ -146,7 +112,6 @@ const App = () => {
             {user.name} logged in
             <button onClick={handleLogout}>logout</button>
           </p>
-          <h2>create new</h2>
           {blogForm()}
           {blogs.map(blog =>
             <Blog key={blog.id} blog={blog} />

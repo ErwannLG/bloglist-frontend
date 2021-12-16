@@ -1,29 +1,58 @@
-import React from "react"
+import React, {useState} from "react"
 
-const BlogForm = ({
-  onSubmit,
-  newTitle,
-  newAuthor,
-  newUrl,
-  handleTitleChange,
-  handleAuthorChange,
-  handleUrlChange
-}) => {
+const BlogForm = ({ createBlog }) => {
+  const [newTitle, setNewTitle] = useState('')
+  const [newAuthor, setNewAuthor] = useState('')
+  const [newUrl, setNewUrl] = useState('')
+
+  const handleTitleChange = (event) => {
+    setNewTitle(event.target.value)
+  }
+
+  const handleAuthorChange = (event) => {
+    setNewAuthor(event.target.value)
+  }
+
+  const handleUrlChange = (event) => {
+    setNewUrl(event.target.value)
+  }
+
+  const addBlog = (event, setMessage) => {
+    event.preventDefault()
+    createBlog({
+      title: newTitle,
+      author: newAuthor,
+      url: newUrl,
+    })
+
+    setNewTitle('')
+    setNewAuthor('')
+    setNewUrl('')
+
+    // setMessage(`a new blog ${newTitle} by ${newAuthor} added`)
+    // setTimeout(() => {
+    //   setMessage(null)
+    // }, 5000)
+  }
+
   return (
-    <form onSubmit={onSubmit}>
-      <div>
-        title: <input value={newTitle} onChange={handleTitleChange} />
-      </div>
-      <div>
-        author: <input value={newAuthor} onChange={handleAuthorChange} />
-      </div>
-      <div>
-        url: <input value={newUrl} onChange={handleUrlChange} />
-      </div>
-      <div>
-        <button type="submit">create</button>
-      </div>
-    </form>
+    <div>
+      <h2>create new</h2>
+      <form onSubmit={addBlog}>
+        <div>
+          title: <input value={newTitle} onChange={handleTitleChange} />
+        </div>
+        <div>
+          author: <input value={newAuthor} onChange={handleAuthorChange} />
+        </div>
+        <div>
+          url: <input value={newUrl} onChange={handleUrlChange} />
+        </div>
+        <div>
+          <button type="submit">create</button>
+        </div>
+      </form>
+    </div>
   )
 }
 
