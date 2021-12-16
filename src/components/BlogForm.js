@@ -17,7 +17,7 @@ const BlogForm = ({ createBlog }) => {
     setNewUrl(event.target.value)
   }
 
-  const addBlog = (event, setMessage) => {
+  const addBlog = (event) => {
     event.preventDefault()
     createBlog({
       title: newTitle,
@@ -28,11 +28,6 @@ const BlogForm = ({ createBlog }) => {
     setNewTitle('')
     setNewAuthor('')
     setNewUrl('')
-
-    // setMessage(`a new blog ${newTitle} by ${newAuthor} added`)
-    // setTimeout(() => {
-    //   setMessage(null)
-    // }, 5000)
   }
 
   return (
