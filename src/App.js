@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from 'react'
 import Blog from './components/Blog'
-import BlogDetails from './components/BlogDetails'
 import BlogForm from './components/BlogForm'
 import Notification from "./components/Notification"
 import Toggleable from "./components/Toggleable"
@@ -102,6 +101,18 @@ const App = () => {
     </Toggleable>
   )
 
+  const addLike = async blog => {
+    try {
+      // console.log('blog :', blog);
+      // console.log('blog.likes :', blog.likes);
+      blog.likes++
+      await blogService.updateBlog(blog)
+      setBlogs(blogs.map( blog => blog ))
+    } catch (error) {
+      console.log('Could not add a like: ', error);
+    }
+  }
+
   return (
     <div>
       {user === null ?
@@ -115,7 +126,7 @@ const App = () => {
           </p>
           {blogForm()}
           {blogs.map(blog =>
-            <Blog key={blog.id} blog={blog} user={blog.user} />
+            <Blog key={blog.id} blog={blog} user={blog.user} addLike={addLike} />
 
           )}
         </div>
