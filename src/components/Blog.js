@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 
-const Blog = ({blog, addLike, deleteBlog, connectedUser}) => {
+const Blog = ({ blog, addLike, deleteBlog, connectedUser }) => {
   const [showDetails, setShowDetails] = useState(false)
 
   const toggleDetails = () => {

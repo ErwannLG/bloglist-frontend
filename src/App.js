@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from 'react'
 import Blog from './components/Blog'
 import BlogForm from './components/BlogForm'
-import Notification from "./components/Notification"
-import Toggleable from "./components/Toggleable"
+import Notification from './components/Notification'
+import Toggleable from './components/Toggleable'
 import blogService from './services/blogs'
 import loginService from './services/login'
 
@@ -51,6 +51,7 @@ const App = () => {
     }
   }
 
+  // eslint-disable-next-line no-unused-vars
   const handleLogout = (event) => {
     window.localStorage.removeItem('loggedBloglistappUser')
     window.location.reload()
@@ -63,21 +64,21 @@ const App = () => {
       <form onSubmit={handleLogin}>
         <div>
           username
-            <input
-              type="text"
-              value={username}
-              name="Username"
-              onChange={({ target }) => setUsername(target.value)}
-            />
+          <input
+            type="text"
+            value={username}
+            name="Username"
+            onChange={({ target }) => setUsername(target.value)}
+          />
         </div>
         <div>
           password
-            <input
-              type="password"
-              value={password}
-              name="Password"
-              onChange={({ target }) => setPassword(target.value)}
-            />
+          <input
+            type="password"
+            value={password}
+            name="Password"
+            onChange={({ target }) => setPassword(target.value)}
+          />
         </div>
         <button type="submit">login</button>
       </form>
@@ -109,7 +110,7 @@ const App = () => {
       await blogService.updateBlog(blog)
       setBlogs(blogs.map( blog => blog ))
     } catch (error) {
-      console.log('Could not add a like: ', error);
+      console.log('Could not add a like: ', error)
     }
   }
 
@@ -119,7 +120,7 @@ const App = () => {
         await blogService.deleteBlog(blog)
         setBlogs(blogs.filter(b => b.id !==blog.id))
       } catch (error) {
-        console.log('Could not remove blog: ', error);
+        console.log('Could not remove blog: ', error)
       }
     }
   }
@@ -139,8 +140,8 @@ const App = () => {
           {blogs
             .sort((a,b) => b.likes - a.likes)
             .map(blog =>
-            <Blog key={blog.id} blog={blog} user={blog.user} connectedUser={user} addLike={addLike} deleteBlog={deleteBlog} />
-          )}
+              <Blog key={blog.id} blog={blog} user={blog.user} connectedUser={user} addLike={addLike} deleteBlog={deleteBlog} />
+            )}
         </div>
       }
     </div>
