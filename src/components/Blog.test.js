@@ -1,38 +1,47 @@
 import React from 'react'
 import '@testing-library/jest-dom/extend-expect'
 import { render, screen } from '@testing-library/react'
+import userEvent from '@testing-library/user-event'
 import Blog from './Blog'
 
-// describe('<Blog />', () => {
-//   beforeEach(() => {
-//     const blog = {
-//       title: 'Blog title',
-//       author: 'Blog author',
-//       url: 'https://www.blog.com/blog-title',
-//       likes: '3',
-//     }
-//   })
+describe('<Blog />', () => {
+  let component
+
+  beforeEach(() => {
+    const blog = {
+      title: 'Blog title',
+      author: 'Blog author',
+      url: 'https://www.blog.com/blog-title',
+      likes: '3',
+      user: { username: 'Bob' },
+    }
+    const connectedUser = {
+      username: 'Bob',
+    }
+
+    const mockHandlerDetails = jest.fn()
+
+    component = render(<Blog blog={blog} toggleDetails={mockHandlerDetails} connectedUser={connectedUser} />)
+
+    screen.debug()
+  })
 
 
-// const component = render(<Blog blog={blog} />)
 
-test('renders blogs with only title and author by default', () => {
-  const blog = {
-    title: 'Blog Title',
-    author: 'Blog author',
-    url: 'https://www.blog.com/blog-title',
-    likes: '366',
-  }
+  test('renders blogs with only title and author by default', () => {
+    expect(component.container).toHaveTextContent('Blog title')
+    expect(component.container).toHaveTextContent('Blog author')
+    expect(component.container).not.toHaveTextContent('https://www.blog.com/blog-title')
+    expect(component.container).not.toHaveTextContent('3')
+  })
 
-  render(<Blog blog={blog} />)
-  screen.debug()
+  test('blog\'s url and number of likes are shown when the details button has been clicked', async () => {
+    const button = screen.getByText('show')
+    userEvent.click(button)
+    screen.debug()
 
-  const title = screen.queryByText(/Blog Title/)
-  expect(title).toBeInTheDocument()
-  const author = screen.queryByText(/Blog author/)
-  expect(author).toBeInTheDocument()
-  const url = screen.queryByText(/https:\/\/www\.blog\.com\/blog-title/)
-  expect(url).not.toBeInTheDocument()
-  const likes = screen.queryByText(/366/)
-  expect(likes).not.toBeInTheDocument()
+    expect(component.container).toHaveTextContent('https://www.blog.com/blog-title')
+    expect(component.container).toHaveTextContent('3')
+  })
+
 })
