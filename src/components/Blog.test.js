@@ -1,11 +1,10 @@
 import React from 'react'
 import '@testing-library/jest-dom/extend-expect'
-import { render, screen } from '@testing-library/react'
-import userEvent from '@testing-library/user-event'
+import { render, screen, fireEvent } from '@testing-library/react'
 import Blog from './Blog'
 
 describe('<Blog />', () => {
-  let component
+  let component, mockHandlerDetails, mockHandlerLike
 
   beforeEach(() => {
     const blog = {
@@ -19,9 +18,17 @@ describe('<Blog />', () => {
       username: 'Bob',
     }
 
-    const mockHandlerDetails = jest.fn()
+    mockHandlerDetails = jest.fn()
+    mockHandlerLike = jest.fn()
 
-    component = render(<Blog blog={blog} toggleDetails={mockHandlerDetails} connectedUser={connectedUser} />)
+
+    component = render(
+      <Blog
+        blog={blog}
+        toggleDetails={mockHandlerDetails}
+        connectedUser={connectedUser}
+        addLike={mockHandlerLike}
+      />)
 
     screen.debug()
   })
@@ -36,12 +43,27 @@ describe('<Blog />', () => {
   })
 
   test('blog\'s url and number of likes are shown when the details button has been clicked', async () => {
-    const button = screen.getByText('show')
-    userEvent.click(button)
+    const detailsButton = screen.getByText('show')
+    fireEvent.click(detailsButton)
     screen.debug()
 
     expect(component.container).toHaveTextContent('https://www.blog.com/blog-title')
     expect(component.container).toHaveTextContent('3')
   })
 
+  test('if the like button is clicked twice, the event handler is called twice', async () => {
+
+    const detailsButton = screen.getByText('show')
+    fireEvent.click(detailsButton)
+
+    const addLikeButton = screen.getByText('like')
+    fireEvent.click(addLikeButton)
+    fireEvent.click(addLikeButton)
+
+    screen.debug()
+
+    expect(component.container).toHaveTextContent('like')
+
+    expect(mockHandlerLike.mock.calls).toHaveLength(2)
+  })
 })
