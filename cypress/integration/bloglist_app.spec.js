@@ -44,8 +44,7 @@ describe('Blog app', function() {
       })
 
       it('A blog can be created', function() {
-        // cy.get('#create-blog-button').click()
-        cy.contains('create new blo').click()
+        cy.contains('create new blog').click()
         cy.contains('create new blog')
         cy.get('#title-input').type('New test blog')
         cy.get('#author-input').type('Mister Test')
@@ -53,6 +52,19 @@ describe('Blog app', function() {
         cy.get('#addBlog-input').click()
 
         cy.contains('New test blog Mister Test')
+      })
+
+      it('Users can like a blog', function() {
+        cy.contains('create new blog').click()
+        cy.get('#title-input').type('New test blog')
+        cy.get('#author-input').type('Mister Test')
+        cy.get('#url-input').type('http://yaytestblog.com/')
+        cy.get('#addBlog-input').click()
+
+        cy.contains('show').click()
+        cy.contains('like').click()
+
+        cy.contains('1 likes')
       })
     })
   })
