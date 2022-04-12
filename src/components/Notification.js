@@ -22,7 +22,7 @@ const Notification = ({ message }) => {
   if (message === null) {
     return null
   } else if (message.includes('wrong')) {
-    return <div style={errorStyle}>{message}</div>
+    return <div className="login-error" style={errorStyle}>{message}</div>
   } else {
     return <div style={successStyle}>{message}</div>
   }

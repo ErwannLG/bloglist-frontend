@@ -82,7 +82,7 @@ const App = () => {
             onChange={({ target }) => setPassword(target.value)}
           />
         </div>
-        <button type="submit">login</button>
+        <button id="login-button" type="submit">login</button>
       </form>
     </div>
   )
@@ -136,7 +136,7 @@ const App = () => {
           <Notification message={message} />
           <p>
             {user.name} logged in
-            <button onClick={handleLogout}>logout</button>
+            <button id="logout-button" onClick={handleLogout}>logout</button>
           </p>
           {blogForm()}
           {blogs
