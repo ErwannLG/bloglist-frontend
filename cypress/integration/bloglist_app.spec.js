@@ -35,5 +35,25 @@ describe('Blog app', function() {
       cy.get('.login-error').should('contain', 'wrong username or password')
       cy.get('.login-error').should('have.css', 'color', 'rgb(255, 0, 0)')
     })
+
+    describe('When logged in', function() {
+      beforeEach(function() {
+        cy.get('#username').type('mluukkai')
+        cy.get('#password').type('salainen')
+        cy.get('#login-button').click()
+      })
+
+      it('A blog can be created', function() {
+        // cy.get('#create-blog-button').click()
+        cy.contains('create new blo').click()
+        cy.contains('create new blog')
+        cy.get('#title-input').type('New test blog')
+        cy.get('#author-input').type('Mister Test')
+        cy.get('#url-input').type('http://yaytestblog.com/')
+        cy.get('#addBlog-input').click()
+
+        cy.contains('New test blog Mister Test')
+      })
+    })
   })
 })
