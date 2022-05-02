@@ -121,8 +121,16 @@ const App = () => {
       try {
         await blogService.deleteBlog(blog)
         setBlogs(blogs.filter(b => b.id !==blog.id))
+        setMessage(`${blog.title} removed`)
+        setTimeout(() => {
+          setMessage(null)
+        }, 5000)
       } catch (error) {
         console.log('Could not remove blog: ', error)
+        setMessage(`Something went wrong. Could not delete blog ${blog.title}`)
+        setTimeout(() => {
+          setMessage(null)
+        }, 5000)
       }
     }
   }
